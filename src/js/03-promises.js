@@ -3,36 +3,23 @@ const btnEl = document.querySelector('.form button');
 const inputEl = document.querySelector('input');
 
 formEl.addEventListener('submit', onFormSubmit);
-let position = 0;
+
+let delayStep = '';
+let amount = '';
+let firstDelay = '';
+
 function onFormSubmit(evt) {
   evt.preventDefault();
-  const formData = {
-    delay: formEl.elements.delay.value,
-    step: formEl.elements.step.value,
-    amount: formEl.elements.amount.value,
-  };
-  // console.log(formData);
-
-  const delay = Number(formData.delay) + Number(formData.step);
-  console.log(delay);
+  let position = 0;
+  firstDelay = evt.currentTarget.elements.delay.value;
+  delayStep = evt.currentTarget.elements.step.value;
+  amount = evt.currentTarget.elements.amount.value;
+  delay = Number(firstDelay);
 
   const intervalId = setInterval(() => {
-    function createPromise(position, delay) {
-      if (position === Number(formData.amount)) {
-        clearInterval(intervalId);
-        return;
-      }
-
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          const shouldResolve = Math.random() > 0.3;
-          if (shouldResolve) {
-            resolve({ position, delay });
-          } else {
-            reject({ position, delay });
-          }
-        }, delay);
-      });
+    if (position === Number(amount)) {
+      clearInterval(intervalId);
+      return;
     }
     position += 1;
     createPromise(position, delay)
@@ -40,9 +27,21 @@ function onFormSubmit(evt) {
         console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
       })
       .catch(({ position, delay }) => {
-        console.log(`❌ Rejected promise ${position} in ${delay}ms`);
+        console.warn(`❌ Rejected promise ${position} in ${delay}ms`);
       });
-  }, delay);
+    delay += Number(delayStep);
+  }, Number(delayStep));
 }
 
-function intervalId() {}
+function createPromise(position, delay) {
+  return new Promise((resolve, reject) => {
+    const intervalId = setInterval(() => {
+      const shouldResolve = Math.random() > 0.3;
+      if (shouldResolve) {
+        resolve({ position, delay });
+      } else {
+        reject({ position, delay });
+      }
+    }, Number(firstDelay));
+  });
+}
