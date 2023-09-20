@@ -26,7 +26,6 @@ const options = {
     }
   },
 };
-
 const datePickr = flatpickr('#datetime-picker', options);
 
 function startTimeInterval() {
