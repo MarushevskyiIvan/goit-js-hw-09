@@ -7,6 +7,7 @@ formEl.addEventListener('submit', onFormSubmit);
 let delayStep = '';
 let amount = '';
 let firstDelay = '';
+let delay = '';
 
 function onFormSubmit(evt) {
   evt.preventDefault();
