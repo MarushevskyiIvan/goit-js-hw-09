@@ -1,6 +1,5 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-const flatpickr = require('flatpickr');
 
 const timeBtnEl = document.querySelector('button[data-start]');
 const daysEl = document.querySelector('span[data-days]');

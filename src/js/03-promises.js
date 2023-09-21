@@ -15,13 +15,9 @@ function onFormSubmit(evt) {
   delayStep = evt.currentTarget.elements.step.value;
   amount = evt.currentTarget.elements.amount.value;
   delay = Number(firstDelay);
-
-  const intervalId = setInterval(() => {
-    if (position === Number(amount)) {
-      clearInterval(intervalId);
-      return;
-    }
+  for (let i = 0; i < amount; i += 1) {
     position += 1;
+
     createPromise(position, delay)
       .then(({ position, delay }) => {
         console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
@@ -29,19 +25,20 @@ function onFormSubmit(evt) {
       .catch(({ position, delay }) => {
         console.warn(`❌ Rejected promise ${position} in ${delay}ms`);
       });
+
     delay += Number(delayStep);
-  }, Number(delayStep));
+  }
 }
 
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
-    const intervalId = setInterval(() => {
+    setTimeout(() => {
       const shouldResolve = Math.random() > 0.3;
       if (shouldResolve) {
         resolve({ position, delay });
       } else {
         reject({ position, delay });
       }
-    }, Number(firstDelay));
+    }, delay);
   });
 }
