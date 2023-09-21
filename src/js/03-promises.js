@@ -7,15 +7,15 @@ formEl.addEventListener('submit', onFormSubmit);
 let delayStep = '';
 let amount = '';
 let firstDelay = '';
-let delay = '';
 
 function onFormSubmit(evt) {
   evt.preventDefault();
   let position = 0;
+  let delay = Number(firstDelay);
   firstDelay = evt.currentTarget.elements.delay.value;
   delayStep = evt.currentTarget.elements.step.value;
   amount = evt.currentTarget.elements.amount.value;
-  delay = Number(firstDelay);
+
   for (let i = 0; i < amount; i += 1) {
     position += 1;
 
