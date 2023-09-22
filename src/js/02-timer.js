@@ -1,6 +1,7 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
+const dateInputEl = document.querySelector('#datetime-picker');
 const timeBtnEl = document.querySelector('button[data-start]');
 const daysEl = document.querySelector('span[data-days]');
 const hoursEl = document.querySelector('span[data-hours]');
@@ -31,6 +32,8 @@ function startTimeInterval() {
   const intervalId = setInterval(() => {
     const timeRelive = datePickr.selectedDates[0] - Date.now();
     const { days, hours, minutes, seconds } = convertMs(timeRelive);
+    timeBtnEl.setAttribute('disabled', true);
+    dateInputEl.setAttribute('disabled', true);
 
     daysEl.textContent = addLeadingZero(days);
     hoursEl.textContent = addLeadingZero(hours);
@@ -39,6 +42,7 @@ function startTimeInterval() {
 
     if ((days, hours, minutes, seconds === 0)) {
       clearInterval(intervalId);
+      dateInputEl.removeAttribute('disabled');
     }
   }, 1000);
 }
